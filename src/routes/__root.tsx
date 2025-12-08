@@ -6,7 +6,10 @@ const RootLayout = () => (
     <div className="p-2 flex gap-2">
       <Link to="/" className="[&.active]:font-bold">
         Home
-      </Link>{' '}
+      </Link>
+      <Link to="/image-particles" className="[&.active]:font-bold">
+        Image
+      </Link>
     </div>
     <hr />
     <Outlet />
