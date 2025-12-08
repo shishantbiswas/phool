@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { generatePositionsFromSvg } from './svgParser'
+import { generatePositionsFromSvg } from '../utils/svgParser'
 import ReactDOMServer from 'react-dom/server'
 
 const COUNT = 20000
@@ -19,7 +19,7 @@ function svgToString(icon: React.ReactNode): string {
 }
 
 export function Scene({ icon }: { icon: React.ReactNode }) {
-  const points = useRef<THREE.Points>(null!)
+  const points = useRef<THREE.Points>(null)
   const mousePos = useRef({ x: 0, y: 0 })
   const { viewport } = useThree()
 
@@ -111,11 +111,11 @@ export function Scene({ icon }: { icon: React.ReactNode }) {
     initialBuffer.current = new Float32Array(COUNT * 3)
     // Start with random positions for an entrance animation effect
     for (let i = 0; i < COUNT; i++) {
-      const angle = Math.random() * Math.PI * 2
-      const r = Math.random() * 3
+      const angle = THREE.MathUtils.randFloatSpread(Math.PI * 2)
+      const r = THREE.MathUtils.randFloatSpread(3)
       initialBuffer.current[i * 3] = Math.cos(angle) * r
       initialBuffer.current[i * 3 + 1] = Math.sin(angle) * r
-      initialBuffer.current[i * 3 + 2] = THREE.MathUtils.randFloat(-0.5, 0.5)
+      initialBuffer.current[i * 3 + 2] = THREE.MathUtils.randFloatSpread(0.5)
     }
   }
 
