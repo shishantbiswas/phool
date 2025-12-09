@@ -17,34 +17,81 @@ export function extractPathsFromSvg(svgContent: string): string[] {
     paths.push(match[1])
   }
 
-  // Extract circle elements and convert to path approximation
+  // Extract circle elements
   const circleRegex = /<circle[^>]*>/gi
   while ((match = circleRegex.exec(svgContent)) !== null) {
-    const circleTag = match[0]
-    const cxMatch = circleTag.match(/cx=["']([^"']+)["']/)
-    const cyMatch = circleTag.match(/cy=["']([^"']+)["']/)
-    const rMatch = circleTag.match(/r=["']([^"']+)["']/)
+    const tag = match[0]
+    const cx = parseFloat((tag.match(/cx=["']([^"']+)["']/) || ['0', '0'])[1])
+    const cy = parseFloat((tag.match(/cy=["']([^"']+)["']/) || ['0', '0'])[1])
+    const r = parseFloat((tag.match(/r=["']([^"']+)["']/) || ['0', '0'])[1])
 
-    if (cxMatch && cyMatch && rMatch) {
-      const cx = parseFloat(cxMatch[1])
-      const cy = parseFloat(cyMatch[1])
-      const r = parseFloat(rMatch[1])
+    if (!isNaN(cx) && !isNaN(cy) && !isNaN(r)) {
+      const k = 0.5522847498
+      const circlePath = `M ${cx} ${cy - r} ` +
+        `C ${cx + r * k} ${cy - r} ${cx + r} ${cy - r * k} ${cx + r} ${cy} ` +
+        `C ${cx + r} ${cy + r * k} ${cx + r * k} ${cy + r} ${cx} ${cy + r} ` +
+        `C ${cx - r * k} ${cy + r} ${cx - r} ${cy + r * k} ${cx - r} ${cy} ` +
+        `C ${cx - r} ${cy - r * k} ${cx - r * k} ${cy - r} ${cx} ${cy - r} Z`
+      paths.push(circlePath)
+    }
+  }
 
-      if (!isNaN(cx) && !isNaN(cy) && !isNaN(r)) {
-        // Create a path that traces the circle using cubic bezier approximation
-        const k = 0.5522847498
-        const circlePath = `M ${cx} ${cy - r} ` +
-          `C ${cx + r * k} ${cy - r} ${cx + r} ${cy - r * k} ${cx + r} ${cy} ` +
-          `C ${cx + r} ${cy + r * k} ${cx + r * k} ${cy + r} ${cx} ${cy + r} ` +
-          `C ${cx - r * k} ${cy + r} ${cx - r} ${cy + r * k} ${cx - r} ${cy} ` +
-          `C ${cx - r} ${cy - r * k} ${cx - r * k} ${cy - r} ${cx} ${cy - r} Z`
-        paths.push(circlePath)
+  // Extract rect elements
+  const rectRegex = /<rect[^>]*>/gi
+  while ((match = rectRegex.exec(svgContent)) !== null) {
+    const tag = match[0]
+    const x = parseFloat((tag.match(/x=["']([^"']+)["']/) || ['0', '0'])[1])
+    const y = parseFloat((tag.match(/y=["']([^"']+)["']/) || ['0', '0'])[1])
+    const w = parseFloat((tag.match(/width=["']([^"']+)["']/) || ['0', '0'])[1])
+    const h = parseFloat((tag.match(/height=["']([^"']+)["']/) || ['0', '0'])[1])
+    const rx = parseFloat((tag.match(/rx=["']([^"']+)["']/) || ['0', '0'])[1])
+
+    if (!isNaN(x) && !isNaN(y) && !isNaN(w) && !isNaN(h)) {
+      // Simple rect for now, ignoring rounded corners for simplicity
+      // M x y L x+w y L x+w y+h L x y+h Z
+      const rectPath = `M ${x} ${y} L ${x + w} ${y} L ${x + w} ${y + h} L ${x} ${y + h} Z`
+      paths.push(rectPath)
+    }
+  }
+
+  // Extract line elements
+  const lineRegex = /<line[^>]*>/gi
+  while ((match = lineRegex.exec(svgContent)) !== null) {
+    const tag = match[0]
+    const x1 = parseFloat((tag.match(/x1=["']([^"']+)["']/) || ['0', '0'])[1])
+    const y1 = parseFloat((tag.match(/y1=["']([^"']+)["']/) || ['0', '0'])[1])
+    const x2 = parseFloat((tag.match(/x2=["']([^"']+)["']/) || ['0', '0'])[1])
+    const y2 = parseFloat((tag.match(/y2=["']([^"']+)["']/) || ['0', '0'])[1])
+
+    if (!isNaN(x1) && !isNaN(y1) && !isNaN(x2) && !isNaN(y2)) {
+      const linePath = `M ${x1} ${y1} L ${x2} ${y2}`
+      paths.push(linePath)
+    }
+  }
+
+  // Extract polyline and polygon elements
+  const polyRegex = /<(polyline|polygon)[^>]*>/gi
+  while ((match = polyRegex.exec(svgContent)) !== null) {
+    const tag = match[0]
+    const isPolygon = match[1] === 'polygon'
+    const pointsMatch = tag.match(/points=["']([^"']+)["']/)
+    
+    if (pointsMatch) {
+      const points = pointsMatch[1].trim().split(/\s+|,/)
+      let path = ''
+      for (let i = 0; i < points.length; i += 2) {
+        const x = points[i]
+        const y = points[i+1]
+        if (x && y) {
+          path += (i === 0 ? 'M ' : 'L ') + `${x} ${y} `
+        }
       }
+      if (isPolygon) path += 'Z'
+      paths.push(path)
     }
   }
 
   console.log('Extracted paths:', paths.length)
-
   return paths
 }
 
@@ -265,7 +312,7 @@ export function generatePositionsFromSvg(
 
   const width = maxX - minX || 1
   const height = maxY - minY || 1
-  const scale = 2.5 / Math.max(width, height)
+  const scale = 1.5 / Math.max(width, height)
   const centerX = (minX + maxX) / 2
   const centerY = (minY + maxY) / 2
 

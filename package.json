@@ -18,6 +18,7 @@
     "@types/svg-path-parser": "^1.1.6",
     "@types/three": "^0.181.0",
     "framer-motion": "^12.23.25",
+    "lucide-react": "^0.556.0",
     "maath": "^0.10.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

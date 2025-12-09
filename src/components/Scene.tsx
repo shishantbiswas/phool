@@ -73,7 +73,7 @@ export function Scene({ icon }: { icon: React.ReactNode }) {
     const targetPositions = targetPositionsRef.current
 
     const mouseInfluenceRadius = 1.2
-    const mouseStrength = 0.4
+    const mouseStrength = 0
 
     for (let i = 0; i < COUNT; i++) {
       const i3 = i * 3
@@ -120,7 +120,7 @@ export function Scene({ icon }: { icon: React.ReactNode }) {
   }
 
   return (
-    <points ref={points}>
+    <points ref={points} position={[0, .6, 0]}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -133,6 +133,8 @@ export function Scene({ icon }: { icon: React.ReactNode }) {
         sizeAttenuation
         transparent
         opacity={0.85}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
       />
     </points>
   )

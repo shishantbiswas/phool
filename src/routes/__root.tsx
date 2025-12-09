@@ -10,6 +10,9 @@ const RootLayout = () => (
       <Link to="/image-particles" className="[&.active]:font-bold">
         Image
       </Link>
+      <Link to="/calender" className="[&.active]:font-bold">
+        Calendar
+      </Link>
     </div>
     <hr />
     <Outlet />
