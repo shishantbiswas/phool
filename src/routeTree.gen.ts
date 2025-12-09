@@ -9,10 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TodosRouteImport } from './routes/todos'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ImageParticlesRouteImport } from './routes/image-particles'
 import { Route as CalenderRouteImport } from './routes/calender'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TodosRoute = TodosRouteImport.update({
+  id: '/todos',
+  path: '/todos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImageParticlesRoute = ImageParticlesRouteImport.update({
   id: '/image-particles',
   path: '/image-particles',
@@ -33,34 +45,62 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/calender': typeof CalenderRoute
   '/image-particles': typeof ImageParticlesRoute
+  '/settings': typeof SettingsRoute
+  '/todos': typeof TodosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/calender': typeof CalenderRoute
   '/image-particles': typeof ImageParticlesRoute
+  '/settings': typeof SettingsRoute
+  '/todos': typeof TodosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/calender': typeof CalenderRoute
   '/image-particles': typeof ImageParticlesRoute
+  '/settings': typeof SettingsRoute
+  '/todos': typeof TodosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calender' | '/image-particles'
+  fullPaths: '/' | '/calender' | '/image-particles' | '/settings' | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calender' | '/image-particles'
-  id: '__root__' | '/' | '/calender' | '/image-particles'
+  to: '/' | '/calender' | '/image-particles' | '/settings' | '/todos'
+  id:
+    | '__root__'
+    | '/'
+    | '/calender'
+    | '/image-particles'
+    | '/settings'
+    | '/todos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CalenderRoute: typeof CalenderRoute
   ImageParticlesRoute: typeof ImageParticlesRoute
+  SettingsRoute: typeof SettingsRoute
+  TodosRoute: typeof TodosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/todos': {
+      id: '/todos'
+      path: '/todos'
+      fullPath: '/todos'
+      preLoaderRoute: typeof TodosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/image-particles': {
       id: '/image-particles'
       path: '/image-particles'
@@ -89,6 +129,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CalenderRoute: CalenderRoute,
   ImageParticlesRoute: ImageParticlesRoute,
+  SettingsRoute: SettingsRoute,
+  TodosRoute: TodosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

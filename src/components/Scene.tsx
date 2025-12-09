@@ -18,7 +18,7 @@ function svgToString(icon: React.ReactNode): string {
   }
 }
 
-export function Scene({ icon }: { icon: React.ReactNode }) {
+export function Scene({ icon, shouldAnimateMouse = false }: { icon: React.ReactNode; shouldAnimateMouse?: boolean }) {
   const points = useRef<THREE.Points>(null)
   const mousePos = useRef({ x: 0, y: 0 })
   const { viewport } = useThree()
@@ -73,7 +73,7 @@ export function Scene({ icon }: { icon: React.ReactNode }) {
     const targetPositions = targetPositionsRef.current
 
     const mouseInfluenceRadius = 1.2
-    const mouseStrength = 0
+    const mouseStrength = shouldAnimateMouse ? 2.5 : 0
 
     for (let i = 0; i < COUNT; i++) {
       const i3 = i * 3
