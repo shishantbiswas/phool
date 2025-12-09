@@ -44,7 +44,7 @@ export function extractPathsFromSvg(svgContent: string): string[] {
     const y = parseFloat((tag.match(/y=["']([^"']+)["']/) || ['0', '0'])[1])
     const w = parseFloat((tag.match(/width=["']([^"']+)["']/) || ['0', '0'])[1])
     const h = parseFloat((tag.match(/height=["']([^"']+)["']/) || ['0', '0'])[1])
-    const rx = parseFloat((tag.match(/rx=["']([^"']+)["']/) || ['0', '0'])[1])
+    // const rx = parseFloat((tag.match(/rx=["']([^"']+)["']/) || ['0', '0'])[1])
 
     if (!isNaN(x) && !isNaN(y) && !isNaN(w) && !isNaN(h)) {
       // Simple rect for now, ignoring rounded corners for simplicity
