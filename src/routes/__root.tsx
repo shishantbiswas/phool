@@ -1,5 +1,6 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 
+import { HeadContent } from '@tanstack/react-router'
 import { Toaster } from 'sonner'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../lib/dexie'
@@ -10,6 +11,13 @@ const RootLayout = () => {
   const settings = useLiveQuery(() => db.settings.get(1))
 
   useEffect(() => {
+    if(!settings){
+    db.settings.add({ 
+      id: 1, 
+      preferredColorScheme: 'light',
+      shouldSaveHistory: true,
+    })
+    }
     if (settings?.preferredColorScheme) {
       document.documentElement.setAttribute('data-theme', settings.preferredColorScheme)
     } else {
@@ -21,6 +29,7 @@ const RootLayout = () => {
   
   return (
     <>
+    <HeadContent/>
     <Navbar/>
       <Outlet />
       {/* <TanStackRouterDevtools /> */}
@@ -46,9 +55,9 @@ function Navbar() {
           Home
         </Link>
         <Link 
-        to="/calender" 
+        to="/showcase" 
         className='p-2 bg-neutral rounded-sm hover:bg-neutral-content hover:text-neutral-100 transition-all duration-300'>
-          Calendar
+          Showcase
         </Link>
         <Link 
         to="/todos" 

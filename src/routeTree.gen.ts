@@ -10,14 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodosRouteImport } from './routes/todos'
+import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ImageParticlesRouteImport } from './routes/image-particles'
-import { Route as CalenderRouteImport } from './routes/calender'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TodosRoute = TodosRouteImport.update({
   id: '/todos',
   path: '/todos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShowcaseRoute = ShowcaseRouteImport.update({
+  id: '/showcase',
+  path: '/showcase',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -30,9 +36,9 @@ const ImageParticlesRoute = ImageParticlesRouteImport.update({
   path: '/image-particles',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CalenderRoute = CalenderRouteImport.update({
-  id: '/calender',
-  path: '/calender',
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,45 +49,62 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/calender': typeof CalenderRoute
+  '/history': typeof HistoryRoute
   '/image-particles': typeof ImageParticlesRoute
   '/settings': typeof SettingsRoute
+  '/showcase': typeof ShowcaseRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/calender': typeof CalenderRoute
+  '/history': typeof HistoryRoute
   '/image-particles': typeof ImageParticlesRoute
   '/settings': typeof SettingsRoute
+  '/showcase': typeof ShowcaseRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/calender': typeof CalenderRoute
+  '/history': typeof HistoryRoute
   '/image-particles': typeof ImageParticlesRoute
   '/settings': typeof SettingsRoute
+  '/showcase': typeof ShowcaseRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calender' | '/image-particles' | '/settings' | '/todos'
+  fullPaths:
+    | '/'
+    | '/history'
+    | '/image-particles'
+    | '/settings'
+    | '/showcase'
+    | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calender' | '/image-particles' | '/settings' | '/todos'
+  to:
+    | '/'
+    | '/history'
+    | '/image-particles'
+    | '/settings'
+    | '/showcase'
+    | '/todos'
   id:
     | '__root__'
     | '/'
-    | '/calender'
+    | '/history'
     | '/image-particles'
     | '/settings'
+    | '/showcase'
     | '/todos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CalenderRoute: typeof CalenderRoute
+  HistoryRoute: typeof HistoryRoute
   ImageParticlesRoute: typeof ImageParticlesRoute
   SettingsRoute: typeof SettingsRoute
+  ShowcaseRoute: typeof ShowcaseRoute
   TodosRoute: typeof TodosRoute
 }
 
@@ -92,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/todos'
       fullPath: '/todos'
       preLoaderRoute: typeof TodosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/showcase': {
+      id: '/showcase'
+      path: '/showcase'
+      fullPath: '/showcase'
+      preLoaderRoute: typeof ShowcaseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -108,11 +138,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImageParticlesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/calender': {
-      id: '/calender'
-      path: '/calender'
-      fullPath: '/calender'
-      preLoaderRoute: typeof CalenderRouteImport
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -127,9 +157,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CalenderRoute: CalenderRoute,
+  HistoryRoute: HistoryRoute,
   ImageParticlesRoute: ImageParticlesRoute,
   SettingsRoute: SettingsRoute,
+  ShowcaseRoute: ShowcaseRoute,
   TodosRoute: TodosRoute,
 }
 export const routeTree = rootRouteImport
