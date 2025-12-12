@@ -3,8 +3,51 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/svg+xml" href="/icon-l.svg" media="(prefers-color-scheme: light)" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Prevent theme flash by setting theme before render
+    (function() {
+      // Open IndexedDB to read theme preference
+      const request = indexedDB.open('ccal-db', 1);
+      
+      request.onsuccess = function(event) {
+        const db = event.target.result;
+        
+        // Check if settings store exists
+        if (!db.objectStoreNames.contains('settings')) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          return;
+        }
+        
+        const transaction = db.transaction(['settings'], 'readonly');
+        const store = transaction.objectStore('settings');
+        const getRequest = store.get(1);
+        
+        getRequest.onsuccess = function() {
+          const settings = getRequest.result;
+          if (settings && settings.preferredColorScheme) {
+            document.documentElement.setAttribute('data-theme', settings.preferredColorScheme);
+          } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        };
+        
+        getRequest.onerror = function() {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        };
+      };
+      
+      request.onerror = function() {
+        // If DB doesn't exist yet, set default theme
+        document.documentElement.setAttribute('data-theme', 'dark');
+      };
+      
+      // Set default immediately in case DB is slow
+      document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
   <title>New Tab</title>
 </head>
 
