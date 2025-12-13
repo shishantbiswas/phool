@@ -95,7 +95,7 @@ function CalendarGrid() {
       </div>
       <div className="grid grid-cols-7 grid-rows-5 gap-(--gap-size) h-full">
         {padding.map(i => (
-          <div key={`pad-${i}`} className="border border-(--color-neutral) rounded-xl bg-(--color-neutral)" />
+          <div key={`pad-${i}`} className="border border-(--color-neutral) rounded-(--rounding) bg-(--color-neutral)" />
         ))}
         {/* Day grid */}
         {days.map(d => {
@@ -137,6 +137,11 @@ function CalendarGrid() {
               <input
                 type="text"
                 name="title"
+                ref={(e) => {
+                  if (e) {
+                    e.focus()
+                  }
+                }}
                 className='border border-(--color-neutral) rounded-md p-2 bg-(--color-base-100) text-(--color-base-content)'
                 placeholder="Buy Playstation 6"
               />
@@ -175,7 +180,7 @@ function RouteComponent() {
               <div className="flex flex-col gap-4">
                 {todos
                   .filter(todo => !todo.completed)
-                  .slice(0, 5)
+                  .slice(0, 3)
                   .map(todo => (
                     <div key={todo.id} className="flex items-center justify-between">
                       <input

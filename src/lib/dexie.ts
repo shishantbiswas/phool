@@ -1,7 +1,6 @@
-import Dexie, { EntityTable } from 'dexie';
+import Dexie, { EntityTable } from "dexie";
 
-
-interface Todo {
+export interface Todo {
   id: number;
   title: string;
   description: string;
@@ -11,40 +10,38 @@ interface Todo {
   completed: boolean;
 }
 
-interface Settings{
+export interface Settings {
   id: number;
   shouldSaveHistory: boolean;
   // too slow for theme usage cause flash on initial render
   // preferredColorScheme: string;
 }
 
-interface History {
+export interface History {
   id: number;
   query: string;
   date: Date;
 }
 
-interface Shabangs {
+export interface Shabangs {
   id: number;
-  icon:string,
-  shabang:string,
-  fullname:string,
-  url: string
-  searchUrl: string
-
+  icon: string;
+  shabang: string;
+  fullname: string;
+  url: string;
+  searchUrl: string;
 }
 
-export const db = new Dexie('phool') as Dexie & {
+export const db = new Dexie("phool") as Dexie & {
   todos: EntityTable<Todo, "id">;
   settings: EntityTable<Settings, "id">;
   history: EntityTable<History, "id">;
-  shabangs: EntityTable<Shabangs, "id">
+  shabangs: EntityTable<Shabangs, "id">;
 };
 
-    
 db.version(1).stores({
-  todos: '++id, title, date, completed',
-  history:'++id, query, date',
-  shabangs: '++id',
-  settings:'id',
+  todos: "++id, title, date, completed",
+  history: "++id, query, date",
+  shabangs: "++id",
+  settings: "id",
 });
