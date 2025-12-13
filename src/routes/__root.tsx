@@ -5,7 +5,6 @@ import { toast, Toaster } from 'sonner'
 import { useEffect, useState } from 'react'
 import { MenuIcon } from 'lucide-react'
 import { Settings, Shabangs, Todo, db, History as dbHistory } from '../lib/dexie'
-import { useLiveQuery } from 'dexie-react-hooks'
 
 const RootLayout = () => {
 
