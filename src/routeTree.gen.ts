@@ -10,9 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodosRouteImport } from './routes/todos'
-import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as ImageParticlesRouteImport } from './routes/image-particles'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TodosRoute = TodosRouteImport.update({
@@ -20,19 +18,9 @@ const TodosRoute = TodosRouteImport.update({
   path: '/todos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShowcaseRoute = ShowcaseRouteImport.update({
-  id: '/showcase',
-  path: '/showcase',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImageParticlesRoute = ImageParticlesRouteImport.update({
-  id: '/image-particles',
-  path: '/image-particles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,45 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/image-particles': typeof ImageParticlesRoute
   '/settings': typeof SettingsRoute
-  '/showcase': typeof ShowcaseRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/image-particles': typeof ImageParticlesRoute
   '/settings': typeof SettingsRoute
-  '/showcase': typeof ShowcaseRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/image-particles': typeof ImageParticlesRoute
   '/settings': typeof SettingsRoute
-  '/showcase': typeof ShowcaseRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/image-particles' | '/settings' | '/showcase' | '/todos'
+  fullPaths: '/' | '/settings' | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/image-particles' | '/settings' | '/showcase' | '/todos'
-  id:
-    | '__root__'
-    | '/'
-    | '/image-particles'
-    | '/settings'
-    | '/showcase'
-    | '/todos'
+  to: '/' | '/settings' | '/todos'
+  id: '__root__' | '/' | '/settings' | '/todos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ImageParticlesRoute: typeof ImageParticlesRoute
   SettingsRoute: typeof SettingsRoute
-  ShowcaseRoute: typeof ShowcaseRoute
   TodosRoute: typeof TodosRoute
 }
 
@@ -94,25 +68,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TodosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/showcase': {
-      id: '/showcase'
-      path: '/showcase'
-      fullPath: '/showcase'
-      preLoaderRoute: typeof ShowcaseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/settings': {
       id: '/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/image-particles': {
-      id: '/image-particles'
-      path: '/image-particles'
-      fullPath: '/image-particles'
-      preLoaderRoute: typeof ImageParticlesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -127,9 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ImageParticlesRoute: ImageParticlesRoute,
   SettingsRoute: SettingsRoute,
-  ShowcaseRoute: ShowcaseRoute,
   TodosRoute: TodosRoute,
 }
 export const routeTree = rootRouteImport
