@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { db } from '../lib/dexie'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/settings')({
   component: RouteComponent,
@@ -10,32 +11,24 @@ function RouteComponent() {
   const settings = useLiveQuery(() => db.settings.get(1))
 
   if (settings === undefined) {
-    db.settings.add({ 
-      id: 1, 
-      preferredColorScheme: 'light',
+    db.settings.add({
+      id: 1,
       shouldSaveHistory: true,
     })
   }
 
-  const currentTheme = settings?.preferredColorScheme ?? 'light'
   const currentHistory = settings?.shouldSaveHistory ?? true
 
-  function setColorTheme(e: React.ChangeEvent<HTMLSelectElement>) {
-    db.settings.update(1,{ 
-      preferredColorScheme: e.target.value,
-      shouldSaveHistory: currentHistory 
+  function disableHistoryToggle(e: React.ChangeEvent<HTMLSelectElement>) {
+    db.settings.update(1, {
+      shouldSaveHistory: e.target.value === 'true',
     })
   }
 
-  function disableHistoryToggle(e: React.ChangeEvent<HTMLSelectElement>) {
-    db.settings.update(1,{ 
-      shouldSaveHistory: e.target.value === 'true',
-      preferredColorScheme: currentTheme 
-    })
-  }
+  const [themeValue, setThemeValue] = useState(localStorage.getItem('phool-theme') as string ?? "light");
 
   return (
-  <div className="mt-4 p-8">
+    <div className="mt-4 p-8">
       <h1 className="text-3xl font-bold mb-8">Settings</h1>
       <div className="flex flex-col justify-between gap-8 mt-12 max-w-3xl">
         <div className="flex justify-between items-center p-4 bg-(--color-base-200) rounded-(--radius-box)">
@@ -43,9 +36,14 @@ function RouteComponent() {
             <p className="text-lg font-semibold">Switch Color Theme</p>
             <p className="text-sm opacity-70">Choose a theme that fits your style</p>
           </div>
-          {<select 
-            onChange={setColorTheme} 
-            value={currentTheme}
+          {<select
+            onChange={(e) => {
+              localStorage.setItem('phool-theme', e.target.value)
+              document.documentElement.setAttribute('data-theme', e.target.value)
+              setThemeValue(e.target.value)
+            }}
+
+            value={themeValue}
             className="bg-(--color-base-100) border border-(--color-neutral) rounded-(--radius-field) p-2 min-w-[150px]"
           >
             <option value="light">Light</option>
@@ -72,8 +70,8 @@ function RouteComponent() {
             <p className="text-lg font-semibold">Save history</p>
             <p className="text-sm opacity-70">Keep a local history of your activity</p>
           </div>
-          {<select 
-            onChange={disableHistoryToggle} 
+          {<select
+            onChange={disableHistoryToggle}
             value={currentHistory ? 'true' : 'false'}
             className="bg-(--color-base-100) border border-(--color-neutral) rounded-(--radius-field) p-2 min-w-[150px]"
           >
@@ -83,4 +81,5 @@ function RouteComponent() {
         </div>
       </div>
     </div>
-)}
+  )
+}

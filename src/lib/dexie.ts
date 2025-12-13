@@ -14,7 +14,8 @@ interface Todo {
 interface Settings{
   id: number;
   shouldSaveHistory: boolean;
-  preferredColorScheme: string;
+  // too slow for theme usage cause flash on initial render
+  // preferredColorScheme: string;
 }
 
 interface History {
@@ -33,7 +34,7 @@ interface Shabangs {
 
 }
 
-export const db = new Dexie('MyDatabase') as Dexie & {
+export const db = new Dexie('phool') as Dexie & {
   todos: EntityTable<Todo, "id">;
   settings: EntityTable<Settings, "id">;
   history: EntityTable<History, "id">;

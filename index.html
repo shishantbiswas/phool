@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8" />
@@ -9,43 +9,10 @@
   <script>
     // Prevent theme flash by setting theme before render
     (function() {
-      // Open IndexedDB to read theme preference
-      const request = indexedDB.open('ccal-db', 1);
-      
-      request.onsuccess = function(event) {
-        const db = event.target.result;
-        
-        // Check if settings store exists
-        if (!db.objectStoreNames.contains('settings')) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-          return;
-        }
-        
-        const transaction = db.transaction(['settings'], 'readonly');
-        const store = transaction.objectStore('settings');
-        const getRequest = store.get(1);
-        
-        getRequest.onsuccess = function() {
-          const settings = getRequest.result;
-          if (settings && settings.preferredColorScheme) {
-            document.documentElement.setAttribute('data-theme', settings.preferredColorScheme);
-          } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-          }
-        };
-        
-        getRequest.onerror = function() {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        };
-      };
-      
-      request.onerror = function() {
-        // If DB doesn't exist yet, set default theme
-        document.documentElement.setAttribute('data-theme', 'dark');
-      };
-      
-      // Set default immediately in case DB is slow
-      document.documentElement.setAttribute('data-theme', 'dark');
+      // Use localStorage for instant synchronous theme loading
+      const savedTheme = localStorage.getItem('phool-theme');
+      const theme = savedTheme || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
   <title>New Tab</title>

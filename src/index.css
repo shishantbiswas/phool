@@ -48,6 +48,8 @@
   --radius-selector: 0.5rem;
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
+  --gap-size: 1rem;
+  --rounding: 0.75rem;
 }
 
 [data-theme="dark"] {
@@ -67,6 +69,8 @@
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
   font-family: 'Martian Mono Variable', sans-serif;
+  --gap-size: 0.25rem;
+  --rounding: 0.25rem;
 }
 
 [data-theme="cyberpunk"] {
@@ -86,6 +90,8 @@
   --radius-field: 0px;
   --radius-box: 0px;
   font-family: "Courier New", monospace;
+  --gap-size: 0.25rem;
+  --rounding: 0px;
 }
 
 [data-theme="retro"] {
@@ -105,6 +111,8 @@
   --radius-field: 0.25rem;
   --radius-box: 0.25rem;
   font-family: "Times New Roman", serif;
+  --gap-size: 0.75rem;
+  --rounding: 0.5rem;
 }
 
 [data-theme="lofi"] {
@@ -124,6 +132,8 @@
   --radius-field: 0px;
   --radius-box: 0px;
   border-width: 1px;
+  --gap-size: 0.5rem;
+  --rounding: 0px;
 }
 
 [data-theme="aqua"] {
@@ -142,6 +152,8 @@
   --radius-selector: 1rem;
   --radius-field: 1rem;
   --radius-box: 1rem;
+  --gap-size: 1rem;
+  --rounding: 1.25rem;
 }
 
 [data-theme="synthwave"] {
@@ -157,6 +169,8 @@
   --color-accent-content: oklch(20% 0.1 280);
   --color-neutral: oklch(25% 0.1 280);
   --color-neutral-content: oklch(90% 0.05 280);
+  --gap-size: 0.5rem;
+  --rounding: 0.5rem;
 }
 
 [data-theme="garden"] {
@@ -175,6 +189,8 @@
   --radius-selector: 1rem;
   --radius-field: 0.5rem;
   --radius-box: 1rem;
+  --gap-size: 1rem;
+  --rounding: 1rem;
 }
 
 [data-theme="forest"] {
@@ -190,6 +206,8 @@
   --color-accent-content: oklch(10% 0.05 140);
   --color-neutral: oklch(10% 0.02 140);
   --color-neutral-content: oklch(80% 0.05 140);
+  --gap-size: 0.5rem;
+  --rounding: 0.5rem;
 }
 
 [data-theme="pastel"] {
@@ -208,6 +226,8 @@
   --radius-selector: 1.5rem;
   --radius-field: 1.5rem;
   --radius-box: 1.5rem;
+  --gap-size: 1.25rem;
+  --rounding: 1.5rem;
 }
 
 [data-theme="dracula"] {
@@ -223,6 +243,8 @@
   --color-accent-content: oklch(15% 0.05 260);
   --color-neutral: oklch(30% 0.05 260);
   --color-neutral-content: oklch(90% 0.05 260);
+  --gap-size: 0.5rem;
+  --rounding: 0.5rem;
 }
 
 [data-theme="coffee"] {
@@ -238,6 +260,8 @@
   --color-accent-content: oklch(10% 0.05 50);
   --color-neutral: oklch(15% 0.02 50);
   --color-neutral-content: oklch(80% 0.05 50);
+  --gap-size: 0.75rem;
+  --rounding: 0.5rem;
 }
 
 [data-theme="night"] {
@@ -253,6 +277,8 @@
   --color-accent-content: oklch(10% 0.05 240);
   --color-neutral: oklch(15% 0.05 240);
   --color-neutral-content: oklch(80% 0.05 240);
+  --gap-size: 0.25rem;
+  --rounding: 0.25rem;
 }
 
 [data-theme="dim"] {
@@ -268,6 +294,8 @@
   --color-accent-content: oklch(15% 0.02 260);
   --color-neutral: oklch(20% 0.02 260);
   --color-neutral-content: oklch(80% 0.02 260);
+  --gap-size: 0.5rem;
+  --rounding: 0.5rem;
 }
 
 [data-theme="nord"] {
@@ -283,6 +311,8 @@
   --color-accent-content: oklch(25% 0.05 240);
   --color-neutral: oklch(30% 0.05 240);
   --color-neutral-content: oklch(95% 0.02 240);
+  --gap-size: 1rem;
+  --rounding: 0.75rem;
 }
 
 [data-theme="sunset"] {
@@ -298,6 +328,8 @@
   --color-accent-content: oklch(15% 0.05 280);
   --color-neutral: oklch(20% 0.05 280);
   --color-neutral-content: oklch(85% 0.05 280);
+  --gap-size: 0.75rem;
+  --rounding: 0.75rem;
 }
 
 body {

@@ -93,7 +93,7 @@ function CalendarGrid() {
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 grid-rows-5 gap-4 h-full">
+      <div className="grid grid-cols-7 grid-rows-5 gap-(--gap-size) h-full">
         {padding.map(i => (
           <div key={`pad-${i}`} className="border border-(--color-neutral) rounded-xl bg-(--color-neutral)" />
         ))}
@@ -105,10 +105,10 @@ function CalendarGrid() {
             <div
               key={d}
               className={`
-                  relative border rounded-xl cursor-pointer active:scale-95 p-4 flex flex-col justify-between transition-all duration-300 group
+                  relative border rounded-(--rounding) cursor-pointer active:scale-95 p-4 flex flex-col justify-between transition-all duration-300 group
                   ${isToday
                   ? 'bg-(--color-base-content) text-(--color-base-100) border-(--color-base-content)'
-                  : 'border-(--color-neutral) hover:border-(--color-neutral-content) hover:bg-(--color-neutral) text-(--color-base-content)'
+                  : 'border-(--color-neutral) hover:border-(--color-neutral-content) hover:bg-black/20 text-(--color-base-content)'
                 }
                 `}
               onClick={() => setPopover(d)}
